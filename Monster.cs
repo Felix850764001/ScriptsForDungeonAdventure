@@ -4,23 +4,29 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    public Animator monster_worm;
+    public int health;   //血量
+    public int damage;   //攻击力
+
+    private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
-        monster_worm.Play("walk");
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (health <= 0)
+        {
+            anim.SetTrigger("Die");
+            gameObject.GetComponent<dropItems>().Drop();
+        }
     }
 
-
-    //怪物的自动移动
-    void monster_move()
+    public void TakeDamage(int damage)
     {
-
+        health -= damage;
     }
 }

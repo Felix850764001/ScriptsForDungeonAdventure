@@ -17,9 +17,4 @@ public class Buttons : MonoBehaviour
     {
         
     }
-
-    public void Attack()
-    {
-        m_animator.SetTrigger("Attack");
-    }
 }

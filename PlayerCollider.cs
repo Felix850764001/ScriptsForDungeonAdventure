@@ -16,14 +16,14 @@ public class PlayerCollider : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        //如果碰到怪物 随机掉落道具
-        if (other.gameObject.CompareTag("Monster"))
-        {
-            other.gameObject.GetComponent<dropItems>().Drop();
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D other)
+    //{
+    //    //如果碰到怪物 随机掉落道具
+    //    if (other.gameObject.CompareTag("Monster"))
+    //    {
+    //        other.gameObject.GetComponent<dropItems>().Drop();
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D other)
     {

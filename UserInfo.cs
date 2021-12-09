@@ -12,6 +12,7 @@ public class UserInfo : MonoBehaviour
     public float Speed;
     public float health;   //血量
     public float armor;    //护甲
+    public int damage;  //攻击力
 
     //用户的血量条和护甲条
     public Slider slider_health;
