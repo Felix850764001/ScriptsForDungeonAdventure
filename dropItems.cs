@@ -27,6 +27,6 @@ public class dropItems : MonoBehaviour
         //获取随机掉落的道具对象并生成该道具
         Instantiate(items[Random.Range(0, items.Length)], pos, Quaternion.identity);
         //删除当前怪物对象
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }
