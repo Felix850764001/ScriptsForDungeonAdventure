@@ -81,4 +81,14 @@ public class UserInfo : MonoBehaviour
         slider_health.value = health / 5;
         text_health.text = health + " \\ 5";
     }
+
+    //lynn新添加 更新血量和护甲值，用于玩家受到伤害。
+    public void healthOrarmor_update()
+    {
+        slider_health.value = health / 5;
+        slider_armor.value = armor / 5;
+
+        text_health.text = health + " \\ 5";
+        text_armor.text = armor + " \\ 5";
+    }
 }
