@@ -21,7 +21,9 @@ public class Monster : MonoBehaviour
         if (health <= 0)
         {
             anim.SetTrigger("Die");
+            PlayerCollider.DamageByMonster();
             gameObject.GetComponent<dropItems>().Drop();
+            
         }
     }
 

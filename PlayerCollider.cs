@@ -64,4 +64,37 @@ public class PlayerCollider : MonoBehaviour
     {
         UserInfo.Instance.isNB = false;
     }
+
+    //玩家收到伤害对于血量和护甲的减少反馈
+    public void DamageByMonster()
+    {
+        //先判断是否处于无敌状态
+        if (!UserInfo.Instance.isNB)
+        {
+            //后续根据怪物的攻击力调正减少值
+            if (UserInfo.Instance.armor >= 2)
+            {
+                UserInfo.Instance.armor -= 2;
+                UserInfo.Instance.healthOrarmor_update();
+            }
+            else if (UserInfo.Instance.armor == 1)
+            {
+                UserInfo.Instance.armor = 0;
+                UserInfo.Instance.health -= 1;
+                UserInfo.Instance.healthOrarmor_update();
+            }
+            else if (UserInfo.Instance.health >= 3)
+            {
+                UserInfo.Instance.health -= 2;
+                UserInfo.Instance.healthOrarmor_update();
+            }
+            else //玩家血量归0后，无法移动，进入死亡状态，弹出game over 然后重新开始
+            {
+                UserInfo.Instance.health = 0;
+                UserInfo.Instance.healthOrarmor_update();
+
+            }
+        }
+
+    }
 }
