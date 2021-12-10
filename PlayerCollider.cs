@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerCollider : MonoBehaviour
 {
+
+    private Animator m_animator;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        m_animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -16,21 +19,26 @@ public class PlayerCollider : MonoBehaviour
         
     }
 
-    //private void OnCollisionEnter2D(Collision2D other)
-    //{
-    //    //如果碰到怪物 随机掉落道具
-    //    if (other.gameObject.CompareTag("Monster"))
-    //    {
-    //        other.gameObject.GetComponent<dropItems>().Drop();
-    //    }
-    //}
+    //lynn添加 玩家碰到怪物受伤 2021/12/10
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        //如果碰到怪物  暂时无敌1s
+        if (other.gameObject.CompareTag("Monster"))
+        {
+            
+            //other.gameObject.GetComponent<dropItems>().Drop();
+            DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
+            UserInfo.Instance.isNB = true;
+            Invoke("Reset_NB", 0.8f);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("Item_SpeedUp"))
         {
-            //捡到加速道具，获得10s加速效果
-            UserInfo.Instance.Speed += 8;
+            //捡到加速道具，获得10s加速效果 //修改未固定值UserInfo.Instance.Speed = 16； 不然会一直叠加上去。2021/12/10
+            UserInfo.Instance.Speed = 16; 
             //更新玩家移动速度
             gameObject.GetComponent<PlayerMove>().Update_Speed();
             Destroy(other.gameObject);
@@ -66,34 +74,36 @@ public class PlayerCollider : MonoBehaviour
     }
 
     //玩家收到伤害对于血量和护甲的减少反馈
-    public void DamageByMonster()
+    public void DamageByMonster(int damage)
     {
         //先判断是否处于无敌状态
         if (!UserInfo.Instance.isNB)
         {
+            //m_animator.SetInteger("AnimState", 9);
+            m_animator.SetTrigger("Hurt");
+            
             //后续根据怪物的攻击力调正减少值
-            if (UserInfo.Instance.armor >= 2)
+            if (UserInfo.Instance.armor >= damage)
             {
-                UserInfo.Instance.armor -= 2;
+                UserInfo.Instance.armor -= damage;
                 UserInfo.Instance.healthOrarmor_update();
             }
-            else if (UserInfo.Instance.armor == 1)
+            else if (UserInfo.Instance.armor != 0)
             {
+                int temp = (int)(damage - UserInfo.Instance.armor);
                 UserInfo.Instance.armor = 0;
-                UserInfo.Instance.health -= 1;
+                if(UserInfo.Instance.health>temp)//玩家血量归0后，无法移动，进入死亡状态，弹出game over 然后重新开始
+                    UserInfo.Instance.health -= temp;
+                else
+                {
+                    UserInfo.Instance.health = 0;
+                    //进入死亡状态
+                    //开始
+                    m_animator.SetTrigger("Death");
+                }
                 UserInfo.Instance.healthOrarmor_update();
             }
-            else if (UserInfo.Instance.health >= 3)
-            {
-                UserInfo.Instance.health -= 2;
-                UserInfo.Instance.healthOrarmor_update();
-            }
-            else //玩家血量归0后，无法移动，进入死亡状态，弹出game over 然后重新开始
-            {
-                UserInfo.Instance.health = 0;
-                UserInfo.Instance.healthOrarmor_update();
-
-            }
+           
         }
 
     }
