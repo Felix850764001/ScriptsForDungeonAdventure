@@ -6,6 +6,7 @@ public class Monster : MonoBehaviour
 {
     public int health;   //ÑªÁ¿
     public int damage;   //¹¥»÷Á¦
+    public bool monsterIsDie = false;
 
     private Animator anim;
 
@@ -18,10 +19,11 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health <= 0)
+        if (health <= 0&&!monsterIsDie)
         {
             anim.SetTrigger("Die");
-            PlayerCollider.DamageByMonster();
+            Destroy(gameObject,1);
+            monsterIsDie = true;
             gameObject.GetComponent<dropItems>().Drop();
             
         }
@@ -31,4 +33,5 @@ public class Monster : MonoBehaviour
     {
         health -= damage;
     }
+    
 }
