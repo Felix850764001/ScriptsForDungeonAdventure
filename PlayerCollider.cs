@@ -7,13 +7,11 @@ public class PlayerCollider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     //private void OnCollisionEnter2D(Collision2D other)
@@ -27,24 +25,23 @@ public class PlayerCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Item_SpeedUp"))
-        {
+        if (other.CompareTag("Item_SpeedUp")) {
             //捡到加速道具，获得10s加速效果
             UserInfo.Instance.Speed += 8;
             //更新玩家移动速度
             gameObject.GetComponent<PlayerMove>().Update_Speed();
             Destroy(other.gameObject);
             Invoke("Reset_Speed", 10);
-        } else if(other.CompareTag("Item_HealthUp"))
-        {
+        }
+        else if (other.CompareTag("Item_HealthUp")) {
             //捡到回血道具 血量回1
-            if(UserInfo.Instance.health != 5)
-            {
+            if (UserInfo.Instance.health != 5) {
                 GameObject.Find("UserInfo").GetComponent<UserInfo>().recover_health();
             }
+
             Destroy(other.gameObject);
-        } else if(other.CompareTag("Item_Shiled"))
-        {
+        }
+        else if (other.CompareTag("Item_Shiled")) {
             //捡到无敌道具 玩家无敌6s
             UserInfo.Instance.isNB = true;
             Invoke("Reset_NB", 6);
@@ -69,22 +66,18 @@ public class PlayerCollider : MonoBehaviour
     public void DamageByMonster()
     {
         //先判断是否处于无敌状态
-        if (!UserInfo.Instance.isNB)
-        {
+        if (!UserInfo.Instance.isNB) {
             //后续根据怪物的攻击力调正减少值
-            if (UserInfo.Instance.armor >= 2)
-            {
+            if (UserInfo.Instance.armor >= 2) {
                 UserInfo.Instance.armor -= 2;
                 UserInfo.Instance.healthOrarmor_update();
             }
-            else if (UserInfo.Instance.armor == 1)
-            {
+            else if (UserInfo.Instance.armor == 1) {
                 UserInfo.Instance.armor = 0;
                 UserInfo.Instance.health -= 1;
                 UserInfo.Instance.healthOrarmor_update();
             }
-            else if (UserInfo.Instance.health >= 3)
-            {
+            else if (UserInfo.Instance.health >= 3) {
                 UserInfo.Instance.health -= 2;
                 UserInfo.Instance.healthOrarmor_update();
             }
@@ -92,9 +85,7 @@ public class PlayerCollider : MonoBehaviour
             {
                 UserInfo.Instance.health = 0;
                 UserInfo.Instance.healthOrarmor_update();
-
             }
         }
-
     }
 }

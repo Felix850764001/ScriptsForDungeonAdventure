@@ -91,4 +91,5 @@ public class UserInfo : MonoBehaviour
         text_health.text = health + " \\ 5";
         text_armor.text = armor + " \\ 5";
     }
+    
 }
