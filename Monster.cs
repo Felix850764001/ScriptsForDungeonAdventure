@@ -1,37 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour
 {
-    public int health;   //Ѫ��
-    public int damage;   //������
-    public bool monsterIsDie = false;
-
-    private Animator anim;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (health <= 0&&!monsterIsDie)
-        {
-            anim.SetTrigger("Die");
-            Destroy(gameObject,1);
-            monsterIsDie = true;
-            gameObject.GetComponent<dropItems>().Drop();
-            
-        }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-    }
+    public float health;
+    public float damage;
+    public float speed;
+    public float waitTime;
+    public float warningRange;
+    public float attackRange;
+    public float attackCd;
+    public float attackTime;
     
+    public void Start(){}
+    public void Update(){}
+
+    public void Idle(){} //æªç©ç«ç«
+
+    public void Walk(){} //æªç©ç§»å¨
+
+    public void Attack(){} //æªç©æ»å»
+
+    public void Death(){} //æªç©æ­»äº¡
+
+    public void Patrol(){} //æªç©å·¡é»
+
+    public void Enmity(){} //æªç©è¿½è¸ªç©å®¶
+    public void TakeDamage(float takeDamage){} //æªç©æ¶å°æ»å»
 }
