@@ -69,15 +69,17 @@ public class MonsterBat : Monster
         collider2D.enabled = false;
     }
     
+    //玩家碰到怪物，则会受到伤害
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerCollider>().DamageByMonster();
+            other.gameObject.GetComponent<PlayerCollider>().DamageByMonster(damage);
         }
     }
 
-    new void TakeDamage(float takeDamage)
+    //怪物受到伤害
+    void TakeDamage(int takeDamage)
     {
         health -= takeDamage;
     }

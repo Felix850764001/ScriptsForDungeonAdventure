@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
 {
-    public float health;
-    public float damage;
-    public float speed;
+    public int health;
+    public int damage;
+    public int speed;
     public float waitTime;
     public float warningRange;
     public float attackRange;
