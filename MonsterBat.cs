@@ -6,9 +6,9 @@ public class MonsterBat : Monster
 {
     public Transform[] movePosition;
 
-    private int pos = 0;
-    private float wait;
-    private bool isEnmity;
+    private int pos = 0;//判断当前要巡逻的下一个点
+    private float wait;//临时变量，用来记录剩余停留时间
+    private bool isEnmity;//判断当前是否在追踪玩家
     private Rigidbody2D m_rigidbody2D;
     private Animator anim;
     private Transform playerTransForm;
@@ -35,6 +35,7 @@ public class MonsterBat : Monster
         transform.position =
             Vector2.MoveTowards(transform.position, movePosition[pos].position, speed * Time.deltaTime);
         if (playerTransForm != null) {
+            //判断玩家是否进入警戒范围
             if (Vector2.Distance(transform.position, playerTransForm.position) <= warningRange) {
                 isEnmity = true;
                 return;
@@ -65,11 +66,16 @@ public class MonsterBat : Monster
     {
         yield return new WaitForSeconds(attackCd);
         collider2D.enabled = true;
+        StartCoroutine(DisableAttack());
+    }
+
+    IEnumerator DisableAttack()
+    {
         yield return new WaitForSeconds(attackTime);
         collider2D.enabled = false;
     }
     
-    //��������������ܵ��˺�
+    //玩家碰到怪物，则会受到伤害
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Player"))
@@ -78,7 +84,7 @@ public class MonsterBat : Monster
         }
     }
 
-    //�����ܵ��˺�
+    //怪物受到伤害
     void TakeDamage(int takeDamage)
     {
         health -= takeDamage;
