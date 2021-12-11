@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PlayerCollider : MonoBehaviour
 {
+
+    private Animator m_animator;
+
     // Start is called before the first frame update
     void Start()
     {
+        m_animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -14,27 +18,33 @@ public class PlayerCollider : MonoBehaviour
     {
     }
 
-    //private void OnCollisionEnter2D(Collision2D other)
-    //{
-    //    //Èç¹ûÅöµ½¹ÖÎï Ëæ»úµôÂäµÀ¾ß
-    //    if (other.gameObject.CompareTag("Monster"))
-    //    {
-    //        other.gameObject.GetComponent<dropItems>().Drop();
-    //    }
-    //}
+    //lynnæ·»åŠ  ç©å®¶ç¢°åˆ°æ€ªç‰©å—ä¼¤ 2021/12/10
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        //å¦‚æœç¢°åˆ°æ€ªç‰©  æš‚æ—¶æ— æ•Œ1s
+        if (other.gameObject.CompareTag("Monster"))
+        {
+            
+            //other.gameObject.GetComponent<dropItems>().Drop();
+            DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
+            UserInfo.Instance.isNB = true;
+            Invoke("Reset_NB", 0.8f);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Item_SpeedUp")) {
-            //¼ñµ½¼ÓËÙµÀ¾ß£¬»ñµÃ10s¼ÓËÙĞ§¹û
-            UserInfo.Instance.Speed += 8;
-            //¸üĞÂÍæ¼ÒÒÆ¶¯ËÙ¶È
+        if(other.CompareTag("Item_SpeedUp"))
+        {
+            //æ¡åˆ°åŠ é€Ÿé“å…·ï¼Œè·å¾—10såŠ é€Ÿæ•ˆæœ //ä¿®æ”¹ä¸ºå›ºå®šå€¼UserInfo.Instance.Speed = 16ï¼› ä¸ç„¶ä¼šä¸€ç›´å åŠ ä¸Šå»ã€‚2021/12/10
+            UserInfo.Instance.Speed = 16; 
+            //æ›´æ–°ç©å®¶ç§»åŠ¨é€Ÿåº¦
             gameObject.GetComponent<PlayerMove>().Update_Speed();
             Destroy(other.gameObject);
             Invoke("Reset_Speed", 10);
         }
         else if (other.CompareTag("Item_HealthUp")) {
-            //¼ñµ½»ØÑªµÀ¾ß ÑªÁ¿»Ø1
+            //æ¡åˆ°å›è¡€é“å…· è¡€é‡å›1
             if (UserInfo.Instance.health != 5) {
                 GameObject.Find("UserInfo").GetComponent<UserInfo>().recover_health();
             }
@@ -42,48 +52,54 @@ public class PlayerCollider : MonoBehaviour
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Item_Shiled")) {
-            //¼ñµ½ÎŞµĞµÀ¾ß Íæ¼ÒÎŞµĞ6s
+            //æ¡åˆ°æ— æ•Œé“å…· ç©å®¶æ— æ•Œ6s
             UserInfo.Instance.isNB = true;
             Invoke("Reset_NB", 6);
             Destroy(other.gameObject);
         }
     }
 
-    //ÖØÖÃÍæ¼ÒËÙ¶È
+    //é‡ç½®ç©å®¶é€Ÿåº¦
     public void Reset_Speed()
     {
         UserInfo.Instance.Speed = 8;
         gameObject.GetComponent<PlayerMove>().Update_Speed();
     }
 
-    //ÖØÖÃÍæ¼ÒÎŞµĞ×´Ì¬
+    //é‡ç½®ç©å®¶æ— æ•ŒçŠ¶æ€
     public void Reset_NB()
     {
         UserInfo.Instance.isNB = false;
     }
 
-    //Íæ¼ÒÊÕµ½ÉËº¦¶ÔÓÚÑªÁ¿ºÍ»¤¼×µÄ¼õÉÙ·´À¡
-    public void DamageByMonster()
+    //ç©å®¶æ”¶åˆ°ä¼¤å®³å¯¹äºè¡€é‡å’ŒæŠ¤ç”²çš„å‡å°‘åé¦ˆ
+    public void DamageByMonster(int damage)
     {
-        //ÏÈÅĞ¶ÏÊÇ·ñ´¦ÓÚÎŞµĞ×´Ì¬
-        if (!UserInfo.Instance.isNB) {
-            //ºóĞø¸ù¾İ¹ÖÎïµÄ¹¥»÷Á¦µ÷Õı¼õÉÙÖµ
-            if (UserInfo.Instance.armor >= 2) {
-                UserInfo.Instance.armor -= 2;
-                UserInfo.Instance.healthOrarmor_update();
-            }
-            else if (UserInfo.Instance.armor == 1) {
-                UserInfo.Instance.armor = 0;
-                UserInfo.Instance.health -= 1;
-                UserInfo.Instance.healthOrarmor_update();
-            }
-            else if (UserInfo.Instance.health >= 3) {
-                UserInfo.Instance.health -= 2;
-                UserInfo.Instance.healthOrarmor_update();
-            }
-            else //Íæ¼ÒÑªÁ¿¹é0ºó£¬ÎŞ·¨ÒÆ¶¯£¬½øÈëËÀÍö×´Ì¬£¬µ¯³ögame over È»ºóÖØĞÂ¿ªÊ¼
+        //å…ˆåˆ¤æ–­æ˜¯å¦å¤„äºæ— æ•ŒçŠ¶æ€
+        if (!UserInfo.Instance.isNB)
+        {
+            //m_animator.SetInteger("AnimState", 9);
+            m_animator.SetTrigger("Hurt");
+            
+            //åç»­æ ¹æ®æ€ªç‰©çš„æ”»å‡»åŠ›è°ƒæ­£å‡å°‘å€¼
+            if (UserInfo.Instance.armor >= damage)
             {
-                UserInfo.Instance.health = 0;
+                UserInfo.Instance.armor -= damage;
+                UserInfo.Instance.healthOrarmor_update();
+            }
+            else if (UserInfo.Instance.armor != 0)
+            {
+                int temp = (int)(damage - UserInfo.Instance.armor);
+                UserInfo.Instance.armor = 0;
+                if(UserInfo.Instance.health>temp)//ç©å®¶è¡€é‡å½’0åï¼Œæ— æ³•ç§»åŠ¨ï¼Œè¿›å…¥æ­»äº¡çŠ¶æ€ï¼Œå¼¹å‡ºgame over ç„¶åé‡æ–°å¼€å§‹
+                    UserInfo.Instance.health -= temp;
+                else
+                {
+                    UserInfo.Instance.health = 0;
+                    //è¿›å…¥æ­»äº¡çŠ¶æ€
+                    //å¼€å§‹
+                    m_animator.SetTrigger("Death");
+                }
                 UserInfo.Instance.healthOrarmor_update();
             }
         }
