@@ -56,7 +56,8 @@ public class MonsterBat : Monster
     new void Attack()
     {
         transform.position = Vector2.MoveTowards(transform.position, playerTransForm.position, speed * Time.deltaTime);
-        if (Vector2.Distance(transform.position, playerTransForm.position) < attackRange) {
+        if (Vector2.Distance(transform.position, playerTransForm.position) < attackRange) 
+        {
             anim.SetTrigger("Attack");
             StartCoroutine(StartAndEndAttack());
         }

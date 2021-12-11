@@ -20,6 +20,9 @@ public class UserInfo : MonoBehaviour
     public Text text_health;
     public Text text_armor;
 
+    //无敌的防护罩
+    public GameObject nb;
+
     //判断是否已经正在回复护甲
     private bool isRecoveringArmor = false;
     //判断是否处于无敌
@@ -65,6 +68,15 @@ public class UserInfo : MonoBehaviour
         {
             CancelInvoke("recover_armor");
             isRecoveringArmor = false;
+        }
+        //无敌情况下 显示防护罩
+        if(isNB)
+        {
+            nb.active = true;
+        }
+        else
+        {
+            nb.active = false;
         }
     }
 
