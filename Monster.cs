@@ -10,6 +10,7 @@ public abstract class Monster : MonoBehaviour
     public float attackRange;//怪物攻击范围
     public float attackCd;//怪物攻击前摇
     public float attackTime;//怪物攻击有效时间
+    public float attackCycle;//怪物攻击周期
     
     public void Start(){}
     public void Update(){}
