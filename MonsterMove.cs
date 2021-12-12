@@ -23,8 +23,6 @@ public class MonsterMove : MonoBehaviour
 
         movement.x = -0.1f;
         movement.y = 0.1f;
-
-
     }
 
     // Update is called once per frame

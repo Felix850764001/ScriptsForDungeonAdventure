@@ -30,6 +30,11 @@ public class PlayerCollider : MonoBehaviour
             UserInfo.Instance.isNB = true;
             Invoke("Reset_NB", 0.8f);
         }
+        else if(other.gameObject.CompareTag("trag"))
+        {
+            //碰到光柱陷阱,受到两点伤害
+            DamageByMonster(2);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

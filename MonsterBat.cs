@@ -7,13 +7,19 @@ public class MonsterBat : Monster
 {
     public Transform[] movePosition;
 
-    private int pos = 0; //判断当前要巡逻的下一个点
-    private float wait; //临时变量，用来记录剩余停留时间
-    private float tempAttack; //临时变量， 用来记录怪物攻击周期剩余时间
-    private bool isEnmity; //判断当前是否在追踪玩家
+    //判断当前要巡逻的下一个点
+    private int pos = 0;
+    //临时变量，用来记录剩余停留时间
+    private float wait;
+    //临时变量， 用来记录怪物攻击周期剩余时间
+    private float tempAttack;
+    //判断当前是否在追踪玩家
+    private bool isEnmity;
+    //玩家临时坐标，用于追踪玩家中心位置
+    private Vector3 temp;
+
     private Rigidbody2D m_rigidbody2D;
     private Animator anim;
-    private Vector3 temp;//玩家临时坐标，用于追踪玩家中心位置
     private Transform playerTransForm;
     private PolygonCollider2D collider2D;
 
@@ -72,6 +78,7 @@ public class MonsterBat : Monster
         if (playerTransForm.position.x > transform.position.x)
             transform.localScale = new Vector3(-0.75f, 0.75f, 0.75f);
         else transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+
         temp = playerTransForm.position;
         temp.y += 1.5f;
         if (Vector2.Distance(transform.position, temp) <= attackRange) {

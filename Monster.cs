@@ -14,10 +14,12 @@ public abstract class Monster : MonoBehaviour
     
     public void Start(){}
     public void Update(){}
+
     public void Attack(){} //怪物攻击
 
     public void Patrol(){} //怪物巡逻
 
     public void Enmity(){} //怪物追踪玩家
+
     public void TakeDamage(float takeDamage){} //怪物收到伤害
 }
