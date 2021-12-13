@@ -7,6 +7,9 @@ public class PlayerCollider : MonoBehaviour
 
     private Animator m_animator;
 
+    //����ܵ��˺� �˺�ֵ��ʾ
+    public GameObject floatPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +25,19 @@ public class PlayerCollider : MonoBehaviour
     //lynn添加 玩家碰到怪物受伤 2021/12/10
     private void OnCollisionEnter2D(Collision2D other)
     {
-        //如果碰到怪物，受到伤害后暂时无敌1s
         if (other.gameObject.CompareTag("Monster"))
         {
-            //other.gameObject.GetComponent<dropItems>().Drop();
-            //DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
+            GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+            gb.transform.GetChild(0).GetComponent<TextMesh>().text = other.gameObject.GetComponent<Monster>().damage.ToString();
+            
+            DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
             UserInfo.Instance.isNB = true;
             Invoke("Reset_NB", 0.8f);
+        }
+        else if(other.gameObject.CompareTag("trag"))
+        {
+            //碰到光柱陷阱,受到两点伤害
+            DamageByMonster(2);
         }
     }
 
@@ -78,9 +87,8 @@ public class PlayerCollider : MonoBehaviour
         //先判断是否处于无敌状态
         if (!UserInfo.Instance.isNB)
         {
-            //m_animator.SetInteger("AnimState", 9);
             m_animator.SetTrigger("Hurt");
-            
+
             //后续根据怪物的攻击力调正减少值
             if (UserInfo.Instance.armor >= damage)
             {

@@ -14,6 +14,9 @@ public class UserInfo : MonoBehaviour
     public float armor;    //护甲
     public int damage;  //攻击力
 
+    //受伤伤害显示
+    public GameObject FloatPoint;
+
     //用户的血量条和护甲条
     public Slider slider_health;
     public Slider slider_armor;
