@@ -1,35 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour
 {
-    public int health;   //Ѫ��
-    public int damage;   //������
-    public bool monsterIsDie = false;
+    public int health;//怪物生命值
+    public int damage;//怪物伤害
+    public int speed;//怪物移动速度
+    public float waitTime;//怪物停滞时间
+    public float warningRange;//怪物警戒范围
+    public float attackRange;//怪物攻击范围
+    public float attackCd;//怪物攻击前摇
+    public float attackTime;//怪物攻击有效时间
+    public float attackCycle;//怪物攻击周期
+    
+    public void Start(){}
+    public void Update(){}
 
-    private Animator anim;
+    public void Attack(){} //怪物攻击
 
-    //�����ܵ��˺� �˺�ֵ��ʾ
+    //�����ܵ��˺� �˺�ֵ��ʾ
     public GameObject floatPoint;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
     }
+    public void Patrol(){} //怪物巡逻
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (health <= 0&&!monsterIsDie)
-        {
-            anim.SetTrigger("Die");
-            Destroy(gameObject,1);
-            monsterIsDie = true;
-            gameObject.GetComponent<dropItems>().Drop();
-            
-        }
-    }
+    public void Enmity(){} //怪物追踪玩家
 
     public void TakeDamage(int damage)
     {
