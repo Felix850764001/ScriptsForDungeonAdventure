@@ -10,6 +10,8 @@ public class Monster : MonoBehaviour
 
     private Animator anim;
 
+    //怪物受到伤害 伤害值显示
+    public GameObject floatPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,8 @@ public class Monster : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+        gb.transform.GetChild(0).GetComponent<TextMesh>().text = damage.ToString();
     }
     
 }
