@@ -12,13 +12,13 @@ public abstract class Monster : MonoBehaviour
     public float attackTime;//怪物攻击有效时间
     public float attackCycle;//怪物攻击周期
     
-    public void Start(){}
     public void Update(){}
 
     public void Attack(){} //怪物攻击
 
     //�����ܵ��˺� �˺�ֵ��ʾ
     public GameObject floatPoint;
+    private Animator anim;
     // Start is called before the first frame update
     void Start()
     {
