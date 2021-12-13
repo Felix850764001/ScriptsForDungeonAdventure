@@ -7,6 +7,9 @@ public class PlayerCollider : MonoBehaviour
 
     private Animator m_animator;
 
+    //����ܵ��˺� �˺�ֵ��ʾ
+    public GameObject floatPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +25,12 @@ public class PlayerCollider : MonoBehaviour
     //lynn添加 玩家碰到怪物受伤 2021/12/10
     private void OnCollisionEnter2D(Collision2D other)
     {
-        //如果碰到怪物，受到伤害后暂时无敌1s
         if (other.gameObject.CompareTag("Monster"))
         {
-            //other.gameObject.GetComponent<dropItems>().Drop();
-            //DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
+            GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+            gb.transform.GetChild(0).GetComponent<TextMesh>().text = other.gameObject.GetComponent<Monster>().damage.ToString();
+            
+            DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
             UserInfo.Instance.isNB = true;
             Invoke("Reset_NB", 0.8f);
         }
