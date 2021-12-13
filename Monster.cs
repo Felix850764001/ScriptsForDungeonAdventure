@@ -11,28 +11,16 @@ public abstract class Monster : MonoBehaviour
     public float attackCd;//怪物攻击前摇
     public float attackTime;//怪物攻击有效时间
     public float attackCycle;//怪物攻击周期
-    
+    public GameObject floatPoint;
     public void Update(){}
 
     public void Attack(){} //怪物攻击
-
-    //�����ܵ��˺� �˺�ֵ��ʾ
-    public GameObject floatPoint;
-    private Animator anim;
-    // Start is called before the first frame update
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
+    
+    public void Start() { }
     public void Patrol(){} //怪物巡逻
 
     public void Enmity(){} //怪物追踪玩家
 
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
-        gb.transform.GetChild(0).GetComponent<TextMesh>().text = damage.ToString();
-    }
+    public void TakeDamage(int damage) { }
     
 }
