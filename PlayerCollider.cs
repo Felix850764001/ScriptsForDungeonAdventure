@@ -83,9 +83,8 @@ public class PlayerCollider : MonoBehaviour
         //先判断是否处于无敌状态
         if (!UserInfo.Instance.isNB)
         {
-            //m_animator.SetInteger("AnimState", 9);
             m_animator.SetTrigger("Hurt");
-            
+
             //后续根据怪物的攻击力调正减少值
             if (UserInfo.Instance.armor >= damage)
             {

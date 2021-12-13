@@ -116,7 +116,7 @@ public class MonsterBat : Monster
         collider2D.enabled = false;
     }
 
-    //玩家碰到怪物，则会受到伤害
+    //玩家碰到怪物，受到伤害
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player")) {
