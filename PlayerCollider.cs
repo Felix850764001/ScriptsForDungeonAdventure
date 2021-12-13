@@ -83,9 +83,8 @@ public class PlayerCollider : MonoBehaviour
         //先判断是否处于无敌状态
         if (!UserInfo.Instance.isNB)
         {
-            //m_animator.SetInteger("AnimState", 9);
             m_animator.SetTrigger("Hurt");
-            
+
             //后续根据怪物的攻击力调正减少值
             if (UserInfo.Instance.armor >= damage)
             {
@@ -96,8 +95,11 @@ public class PlayerCollider : MonoBehaviour
             {
                 int temp = (int)(damage - UserInfo.Instance.armor);
                 UserInfo.Instance.armor = 0;
-                if(UserInfo.Instance.health>temp)//玩家血量归0后，无法移动，进入死亡状态，弹出game over 然后重新开始
+                if (UserInfo.Instance.health > temp)
+                {//玩家血量归0后，无法移动，进入死亡状态，弹出game over 然后重新开始
                     UserInfo.Instance.health -= temp;
+                    UserInfo.Instance.healthOrarmor_update();
+                }
                 else
                 {
                     UserInfo.Instance.health = 0;
@@ -107,8 +109,22 @@ public class PlayerCollider : MonoBehaviour
                 }
                 UserInfo.Instance.healthOrarmor_update();
             }
-           
+            else
+            {
+                if (UserInfo.Instance.health > damage)
+                {//玩家血量归0后，无法移动，进入死亡状态，弹出game over 然后重新开始
+                    UserInfo.Instance.health -= damage;
+                    UserInfo.Instance.healthOrarmor_update();
+                }
+                else
+                {
+                    UserInfo.Instance.health = 0;
+                    //进入死亡状态
+                    //开始
+                    m_animator.SetTrigger("Death");
+                }
+                UserInfo.Instance.healthOrarmor_update();
+            }
         }
-
     }
 }
