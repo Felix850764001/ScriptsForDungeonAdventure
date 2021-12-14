@@ -40,8 +40,11 @@ public class MonsterBat : Monster
 
     new void Update()
     {
-        if (!isEnmity) Patrol();
-        else Enmity();
+        if (health <= 0) Death();
+        else {
+            if (!isEnmity) Patrol();
+            else Enmity();
+        }
     }
 
     new void Patrol()
@@ -127,8 +130,21 @@ public class MonsterBat : Monster
         }
     }
 
+    new void Death()
+    {
+        anim.SetTrigger("Die");
+        StartCoroutine(DeathDetention());
+    }
+
+    IEnumerator DeathDetention()
+    {
+        yield return new WaitForSeconds(deathDetentionTime);
+        Destroy(gameObject);
+        gameObject.GetComponent<dropItems>().Drop();
+    }
+
     //怪物受到伤害
-    void TakeDamage(int takeDamage)
+    public override void TakeDamage(int takeDamage)
     {
         health -= takeDamage;
         GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
