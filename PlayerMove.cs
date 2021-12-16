@@ -58,7 +58,7 @@ public class PlayerMove : MonoBehaviour
 
         //设置人物移动动画
         m_animator.SetFloat("AirSpeed", 1);
-        if (Mathf.Abs(horizontal) > Mathf.Epsilon)
+        if (Mathf.Abs(horizontal) > Mathf.Epsilon || Mathf.Abs(vertical) > Mathf.Epsilon)
         {
             m_animator.SetInteger("AnimState", 2);
         }
