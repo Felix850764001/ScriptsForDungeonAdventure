@@ -99,13 +99,15 @@ public class MonsterBat : Monster
         else {
             transform.position =
                 Vector2.MoveTowards(transform.position, temp, speed * Time.deltaTime);
+            tempAttack = 0;
         }
     }
 
     new void Attack()
     {
         anim.SetTrigger("Attack");
-        StartCoroutine(StartAndEndAttack());
+        collider2D.enabled = true;
+        StartCoroutine(DisableAttack());
     }
 
     IEnumerator StartAndEndAttack()
@@ -146,8 +148,13 @@ public class MonsterBat : Monster
     //怪物受到伤害
     public override void TakeDamage(int takeDamage)
     {
-        health -= takeDamage;
-        GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
-        gb.transform.GetChild(0).GetComponent<TextMesh>().text = damage.ToString();
+        if (health > 0) {
+            health -= takeDamage;
+            GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+            gb.transform.GetChild(0).GetComponent<TextMesh>().text = "-" + UserInfo.Instance.damage.ToString();
+        }
+        else {
+            return;
+        }
     }
 }

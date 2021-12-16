@@ -23,23 +23,22 @@ public class PlayerCollider : MonoBehaviour
     }
 
     //lynn添加 玩家碰到怪物受伤 2021/12/10
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Monster"))
-        {
-            GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
-            gb.transform.GetChild(0).GetComponent<TextMesh>().text = other.gameObject.GetComponent<Monster>().damage.ToString();
-            
-            DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
-            UserInfo.Instance.isNB = true;
-            Invoke("Reset_NB", 0.8f);
-        }
-        else if(other.gameObject.CompareTag("trag"))
-        {
-            //碰到光柱陷阱,受到两点伤害
-            DamageByMonster(2);
-        }
-    }
+    // private void OnCollisionEnter2D(Collision2D other)
+    // {
+    //     if (other.gameObject.CompareTag("Monster"))
+    //     {
+    //         GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+    //         // gb.transform.GetChild(0).GetComponent<TextMesh>().text = "-" + other.gameObject.GetComponent<Monster>().damage.ToString();
+    //         DamageByMonster(other.gameObject.GetComponent<Monster>().damage);
+    //         UserInfo.Instance.isNB = true;
+    //         Invoke("Reset_NB", 0.8f);
+    //     }
+    //     else if(other.gameObject.CompareTag("trag"))
+    //     {
+    //         //碰到光柱陷阱,受到两点伤害
+    //         DamageByMonster(2);
+    //     }
+    // }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -88,7 +87,11 @@ public class PlayerCollider : MonoBehaviour
         if (!UserInfo.Instance.isNB)
         {
             m_animator.SetTrigger("Hurt");
-
+            //玩家掉血动画显示：
+            GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+            gb.transform.GetChild(0).GetComponent<TextMesh>().text = "-" + damage.ToString();
+            UserInfo.Instance.isNB = true;
+            Invoke("Reset_NB", 0.8f);
             //后续根据怪物的攻击力调正减少值
             if (UserInfo.Instance.armor >= damage)
             {
